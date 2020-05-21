@@ -1,0 +1,70 @@
+<html>
+    {% load staticfiles %}	
+    {% load crispy_forms_tags %}
+    {% include 'navbar.html' %}
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <body>
+        <div class="container theme-showcase" role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <div class="title">{{title}}</div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="std-search">
+                        <form method="post" action="">
+                            {% csrf_token %} 
+                            {{form|crispy}}
+                            <input class="search-btn btn btn-primary" type="submit" value="Search">
+                        </form>
+                    </div>
+                </div><!--/col-sm-3-->
+            </div><!--/row-->
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="aligncenter">TRANSFER CODE</th>
+                        <th class="aligncenter">SENDER NAME</th>
+                        <th class="aligncenter">SENDER ID NUMBER</th>
+                        <th class="aligncenter">SENDER ADDRESS</th>
+                        <th class="aligncenter">SENDER PHONE #</th>
+                        <th class="aligncenter">AMOUNT SENT</th>
+                        <th class="aligncenter">RECEIPIENT NAME</th>
+                        <th class="aligncenter">RECEIPIENT PHONE #</th>
+                        <th class="aligncenter">RECEIPIENT ADDRESS</th>
+                        <th class="aligncenter">SENT DATE/TIME</th>
+                    </tr>
+                </thead>
+
+                {% for transfers in queryset %}
+                <tbody>
+                    <tr>
+                        <td class="aligncenter"><a href='{{ transfers.get_absolute_url_receivemoney }}'>{{transfers.transfer_code}}</a></td>
+                        <td class="aligncenter">{{transfers.sender_name}}</td>
+                        <td class="aligncenter">{{transfers.sender_id_number}}</td>
+                        <td class="aligncenter">{{transfers.sender_address}}</td>
+                        <td class="aligncenter">{{transfers.sender_phone_number}}</td>
+                        <td class="aligncenter">D{{transfers.amount}}</td>
+                        <td class="aligncenter">{{transfers.recipient_name}}</td>
+                        <td class="aligncenter">{{transfers.recipient_phone_number}}</td>
+                        <td class="aligncenter">{{transfers.recipient_address}}</td>
+                        <td class="aligncenter">{{transfers.time_sent}}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+
+        </div>
+
+        </div> <!-- /container -->
+<!--         <footer class="footer">
+          <div class="container">
+            <div id="updatetime"></div>
+          </div>
+        </footer> -->
+    </body>      
+</html>

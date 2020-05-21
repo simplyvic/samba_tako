@@ -1,0 +1,26 @@
+{% load staticfiles %}	
+{% include 'navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <body>
+
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h2>{{title}}</h2>
+        <p>Please do not attempt to login to this system if you are not part of the authorised Samba Tako Forex Staffs.</p>
+        <!-- <div class="btn btn-lg btn-primary">login</div><br> -->
+<!--         {% block title %}
+        {% endblock %} -->
+
+        {% block content %}
+        {% endblock %}
+      </div>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<html>
+    {% load staticfiles %}	
+    {% load crispy_forms_tags %}
+    {% include 'navbar.html' %}
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <body>
+        <div class="container theme-showcase" role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+        {% if request.user.is_authenticated %}
+            <div class="title bolder">{{title}}</div><br><br>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="std-search">
+                        <form method="post" action="">
+                            {% csrf_token %} 
+                            {{form|crispy}}
+                            <input class="search-btn btn btn-primary" type="submit" value="Search">
+                        </form>
+                    </div>
+                </div><!--/col-sm-3-->
+            </div><!--/row-->
+
+            <div class="row"><!--thumbnail row-->
+                <div class="transfer-list-message aligncenter mybold highlight">{{ message }}</div>     
+                {% for transfers in queryset %}
+                      <font color="#2e6da4" font align="center">
+                        <a href="{{ transfers.get_absolute_url_receivemoney }}">
+                          <div class="col-sm-2 transfer-thumbnail-display thumbnail">
+                            <div class="transfer-thumbnail-top">
+                            <img src="/static/img/dalasi.png"><br>
+                              Transfer Code:<br>{{transfers.transfer_code}}<br>
+                            </div> <!--transfer-thumbnail-top col-->
+                            <div class="transfer-thumbnail-bottom">
+                              Receipient Name:<br> <span class="blink-me" style="color: #e61c66">{{transfers.recipient_name}}</span><br>
+                            </div> <!--transfer-thumbnail-bottom col-->
+                          </div>
+                        </a>
+                      </font>
+                {% endfor %}
+            </div><!--End Thumbnail row-->
+            {% else %}<div class="highlight bolder aligncenter"> You have to login before you can access this page. Click <a href="/accounts/login">here</a> to Sign in</div>
+        {% endif %}
+        </div>
+
+        </div> <!-- /container -->
+    </body>      
+</html>

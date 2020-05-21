@@ -1,0 +1,71 @@
+{% load staticfiles %}	
+{% load crispy_forms_tags %}
+{% include 'navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<meta HTTP-EQUIV="refresh" CONTENT="1800">
+    <body>
+        <div class="container theme-showcase" role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+          {% if request.user.is_authenticated %}
+            <div class="row"><!--row for heading-->
+              <div class="heading bolder">{{title}}</div><br><br>
+            </div> <!-- End row for heading-->
+            
+              <div class="row">
+
+                <div class="">
+                  <font color="#2e6da4" font align="center">
+                    <a href="/moneytransfer/pendingmoney">
+                      <div class="col-sm-3 transfer-thumbnail-display thumbnail home_voucher">
+                        <div class="transfer-home-thumbnail-top">
+                          <div class="transfer-home-message highlight">{{message}}</div><br>
+                          <div class="transfer-home-image"><img src="/static/img/receive_transfer.png"></div><br>
+                          <div class="aligncenter">PENDING<br>TRANSFERS</div>
+                        </div> <!--transfer-home-thumbnail-top col-->
+                      </div>
+                    </a>
+                  </font>
+                </div>
+              {% if request.user.is_staff %}
+                <div class="">
+                  <font color="#2e6da4" font align="center">
+                    <a href="/moneytransfer/listtransfersreceived">
+                      <div class="col-sm-3 transfer-thumbnail-display thumbnail home_voucher">
+                        <div class="transfer-home-thumbnail-top">
+                          <!-- <div class="transfer-home-message">{{ s }}</div><br> -->
+                          <div class="transfer-home-image"><img src="/static/img/all_transfer.jpg"></div><br>
+                          <div class="aligncenter">All<br>RECEIVED</div>
+                        </div> <!--Thumbname col-->
+                      </div>
+                    </a>
+                  </font>
+                </div>
+              
+                <div class="">
+                  <font color="#2e6da4" font align="center">
+                    <a href="/moneytransfer/listtransfersall">
+                      <div class="col-sm-3 transfer-thumbnail-display thumbnail home_voucher">
+                        <div class="transfer-home-thumbnail-top">
+                          <!-- <div class="transfer-home-message">{{ s }}</div><br> -->
+                          <div class="transfer-home-image"><img src="/static/img/report_report.png"></div><br>
+                          <div class="aligncenter">All<br>TRANSFERS</div>
+                        </div> <!--Thumbname col-->
+                      </div>
+                    </a>
+                  </font>
+                </div>
+              {% endif %}
+            </div><!--END row-->
+            {% else %}<div class="highlight bolder aligncenter"> You have to login before you can access this page. Click <a href="/accounts/login">here</a> to Sign in</div>
+        {% endif %}
+        </div> <!--jumbotron end-->
+
+
+        </div> <!-- /container -->
+        
+    </body>      
+</html>

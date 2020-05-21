@@ -1,0 +1,96 @@
+{% load staticfiles %}
+{% include 'navbar.html' %}
+{% load crispy_forms_tags %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="../../favicon.ico"> -->
+
+    <title>AGD Inventory System</title>
+
+  </head>
+
+  <body>
+  <div class="maincontainer">
+    <div class="container">
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron jumbotron-store">
+        <div class="row">
+          <div class="col-sm-12">
+          <div class="bucket">
+              <!-- <div class="custom-title">{{title}}</div><br/><br/> -->
+              {% if request.user.is_authenticated %}
+              
+                  <div class="pannel">
+                    <h2 class="custom-title">OTHER SETTINGS</h2>
+                        <div class="admin">
+                            {% if perms.items.add_agdmainstore %}
+                          <div class="tabs"><!-- First TAB ROW class -->
+                              <ul>
+                                <li><a href="#dollarrate">USD Rate</a></li>
+                                <li><a href="#charges">Charges Per Transaction</a></li>
+                              </ul>
+                              
+                              <div id="dollarrate">
+                              <p>
+                                <form method='POST' action=''>{% csrf_token %}
+                                <div class="col-sm-4">{{rateForm|crispy}}</div><br>
+                                <input type='submit' class='btn btn-primary' value="Save" />
+                                </form>
+                              </p>
+                              </div>
+
+                              <div id="charges">
+                              <p>
+                                <form method='POST' action=''>{% csrf_token %}
+                                <div class="col-sm-4">{{chargesForm|crispy}}</div><br>
+                                <input type='submit' class='btn btn-primary' value="Save" />
+                                </form>
+                              </p>
+                              </div>
+                        </div><!--end DIV under first h2 tag-->
+                        {% else %}<div class="red aligncenter">You do not have permissions to access settings</div>
+                        {% endif %}
+                        </div>
+
+                    <h2 class="custom-title">ACCOUNT SETTINGS</h2>
+                        <div class="admin">
+                            {% if request.user.is_staff %}
+                            <iframe src="/admin" width="100%" height="100%"></iframe>
+                            {% else %}<div class="red aligncenter">You do not have permissions to access settings</div>
+                            {% endif %}
+                        </div>
+
+                  </div><!--end div PANNEL class-->
+
+                  </div><!--end div PANNEL class-->
+
+              {% endif %}
+            </div><!--bucket End-->
+          </div><!--jumbotron col 1 end-->
+        </div> <!--jumboton row-->
+      
+      </div> <!--jumbotron end-->
+    </div> <!-- /container -->
+
+    </div>
+
+
+    <div class="status message">
+      <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}><font size="4">{{ message }}</font></li>
+        {% endfor %}
+      </ul>
+    </div> --><!--status message end
+  </body>
+</html>

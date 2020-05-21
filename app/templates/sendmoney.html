@@ -1,0 +1,40 @@
+<html>
+    {% load staticfiles %}
+    {% load crispy_forms_tags %}
+    {% include 'navbar.html' %}
+
+    <!DOCTYPE html>
+    <html lang="en">
+      <body>
+
+        <div class="container theme-showcase" role="main">
+
+            <!-- Main jumbotron for a primary marketing message or call to action -->
+            <div class="jumbotron">
+            {% if request.user.is_authenticated %}
+                <div class="title bolder">{{title}}</div><br><br>
+                
+                <div class="row">
+                    <div class="col-sm-3">
+                        <form method="post" action="">
+                            {% csrf_token %} 
+                            {{form|crispy}}
+                            <input type="submit" class="btn btn-danger" value="Send">
+                            <a href="/moneytransfer/transferdashboard"><botton class='btn btn-primary'>Cancel</botton></a>
+                        </form>
+                    </div><!--/col-sm-3-->
+
+                    <div class="col-sm-9 aligncenter">
+                        <img style="width: 100%" src="/static/img/moneytransfer1.png">
+                    </div><!--/col-sm-3-->
+                </div><!--/row-->
+                {% else %}<div class="highlight bolder aligncenter"> You have to login before you can access this page. Click <a href="/login">here</a> to Sign in</div>
+        {% endif %}
+            </div><!--/jumbotron-->
+
+        </div> <!-- /container -->
+        
+
+    </body>
+    <script src="{% static 'js/customAddition.js' %}"></script><!--Hide Local Transfer when in Forex window-->
+</html>
