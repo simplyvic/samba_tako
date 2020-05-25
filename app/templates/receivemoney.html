@@ -28,12 +28,14 @@
                         <div class="money_details aligncenter">
                             Sender: {{instance.sender_name}}<br>
                             Date Sent: {{instance.time_sent}}<br>
-                            Amount: <span class="highlight bolder">D{{instance.amount_sent}}</span>
+                            Amount: <span class="highlight bolder">D{{instance.amount_sent}}</span><br>
+                            Sending Teller: <span class="">{{instance.tellerone}}</span><br>
+                            Branch: <span class="">{{instance.code}}</span><br>
                             <hr>
                             Receipient Name: {{instance.recipient_name}}<br>
-                            Receipient ID #: <span class="highlight bolder">{{instance.recipient_id_number}}</span><br>
+                            Receipient Address: <span class="">{{instance.recipient_address}}</span><br>
+                            Receipient ID #: <span class="">{{instance.recipient_id_number}}</span><br>
                             Transfer Code #: <span class="highlight bolder">{{instance.transfer_code}}</span><br>
-                            Sending Teller: <span class="highlight bolder">{{instance.tellerone}}</span><br>
                         </div>
                     </div><!--/col-sm-3-->
                 </div><!--/row-->

@@ -50,7 +50,7 @@
                 {% for transfers in queryset_local %}
                 <tbody>
                     <tr>
-                        <td class="aligncenter"><a href='{{ transfers.get_absolute_url_edit }}'>{{transfers.transfer_code}}</a></td>
+                        <td class="aligncenter">{{transfers.transfer_code}}</td>
                         <td class="aligncenter">{{transfers.transfer_type}}</td>
                         <td class="aligncenter">{{transfers.sender_name}}</td>
                         <td class="aligncenter">{{transfers.sender_id_number}}</td>
@@ -101,7 +101,7 @@
                 {% for transfers in queryset_forex %}
                 <tbody>
                     <tr>
-                        <td class="aligncenter"><a href='{{ transfers.get_absolute_url_edit }}'>{{transfers.transfer_code}}</a></td>
+                        <td class="aligncenter">{{transfers.transfer_code}}</td>
                         <td class="aligncenter">{{transfers.transfer_type}}</td>
                         <td class="aligncenter">{{transfers.sender_name}}</td>
                         <td class="aligncenter">{{transfers.sender_id_number}}</td>
