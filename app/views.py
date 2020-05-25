@@ -206,9 +206,15 @@ def listtransfersall(request):
     title = 'ALL TRANSFERS'
     form = TransferAllSearchForm(request.POST or None)
     # total = Transfer.objects.aggregate(Sum("amount_sent"))
-    amount_sents = Transfer.objects.values_list('amount_sent', flat=True)
-    total = sum(amount_sents)
+    amount_local = Transfer.objects.values_list('amount_sent', flat=True)
+    amount_forex = Transfer.objects.values_list('amount_sent', flat=True).exclude(transfer_type='Local Transfer')
+    total_local = sum(amount_local)
+    total_forex = sum(amount_forex)
+
     queryset = Transfer.objects.all()
+    queryset_local = Transfer.objects.filter(transfer_type='Local Transfer')
+    queryset_forex = Transfer.objects.exclude(transfer_type='Local Transfer')
+
     if form['start_date'].value() == '':
         start_date = '2017-02-01 00:00'
     else:
@@ -218,11 +224,55 @@ def listtransfersall(request):
         end_date = datetime.datetime.now()
     else:
         end_date = form['end_date'].value()    
+
+    queryset_total_transfer_type = Transfer.objects.values('transfer_type'
+                                                ).order_by('transfer_type'
+                                                ).annotate(total=Sum('amount_sent')
+                                                # ).annotate(total_forex=Sum('amount_sent')
+                                                )
+
+    queryset_total_local_code = Transfer.objects.values('code'
+                                                ).order_by('code'
+                                                ).annotate(total=Sum('amount_sent')
+                                                # ).annotate(total_forex=Sum('amount_sent')
+                                                ).filter(transfer_type='Local Transfer')
+
+
+    queryset_total_forex_code = Transfer.objects.values('code'
+                                                ).order_by('code'
+                                                ).annotate(total=Sum('amount_sent')
+                                                # ).annotate(total_forex=Sum('amount_sent')
+                                                ).exclude(transfer_type='Local Transfer')
+
+
+    # queryset_total_local_or_forex = Transfer.objects.values('transfer_type'
+    #                                             ).order_by('transfer_type'
+    #                                             ).annotate(total_local=Sum('amount_sent')
+    #                                             ).annotate(total_forex=Sum('amount_sent')
+    #                                             )
+    # # print(queryset_total)
+
+    # queryset_local = queryset_total.filter(total_forex='Local Tranfer')
+    # print (queryset_local)
     context = {
     "title": title,
-    "queryset": queryset,
+    # "queryset": queryset,
+    "queryset_local": queryset_local,
+    "queryset_forex": queryset_forex,
+
+    "total_local": total_local,
+    "total_forex": total_forex,
+
+
+    "queryset_total_transfer_type": queryset_total_transfer_type,
+    "queryset_total_local_code": queryset_total_local_code,
+    "queryset_total_forex_code": queryset_total_forex_code,
+    # "queryset_total_local_or_forex": queryset_total_local_or_forex,
+    # "total_local": total_transfers,
+    # "total_local": total_transfers,
     "form": form,
-    "total": total,
+    # "total": total_local,
+    "total": total_forex,
     }
     if request.method == 'POST':
         queryset = Transfer.objects.all().filter(transfer_code__icontains=form['transfer_code'].value(),

@@ -47,7 +47,7 @@
                     </tr>
                 </thead>
 
-                {% for transfers in queryset %}
+                {% for transfers in queryset_local %}
                 <tbody>
                     <tr>
                         <td class="aligncenter"><a href='{{ transfers.get_absolute_url_edit }}'>{{transfers.transfer_code}}</a></td>
@@ -69,8 +69,11 @@
                 {% endfor %}
             </table>
             <div class="total">
-                <span class="highlight bolder">TOTAL : D{{total}}</span>
+                <span class="highlight bolder">TOTAL LOCAL TRANSFER : D{{total_local}}</span>
             </div>
+
+
+           
             <hr>
             <br><br>
 
@@ -95,7 +98,7 @@
                     </tr>
                 </thead>
 
-                {% for transfers in queryset %}
+                {% for transfers in queryset_forex %}
                 <tbody>
                     <tr>
                         <td class="aligncenter"><a href='{{ transfers.get_absolute_url_edit }}'>{{transfers.transfer_code}}</a></td>
@@ -117,8 +120,84 @@
                 {% endfor %}
             </table>
             <div class="total">
-                <span class="highlight bolder">TOTAL : D{{total}}</span>
+                <span class="highlight bolder">TOTAL FOREX :D{{total_forex}}</span>
             </div>
+
+
+
+
+
+            <hr>
+            <br><br>
+
+            <div class="bolder">TOTAL FOR ALL TRANSFER</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="aligncenter">TRANSFER TYPE</th>
+                        <th class="aligncenter">TOTAL</th>
+                        
+                    </tr>
+                </thead>
+
+                {% for transfers in queryset_total_transfer_type %}
+                <tbody>
+                    <tr>
+                        <td class="aligncenter">{{transfers.transfer_type}}</td>
+                        <td class="aligncenter">D{{transfers.total}}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+
+
+
+            <hr>
+            <br><br>
+
+            <div class="bolder">TOTAL FOR LOCAL CODES</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="aligncenter">CODE</th>
+                        <th class="aligncenter">TOTAL</th>
+                        
+                    </tr>
+                </thead>
+
+                {% for transfers in queryset_total_local_code %}
+                <tbody>
+                    <tr>
+                        <td class="aligncenter">{{transfers.code}}</td>
+                        <td class="aligncenter">D{{transfers.total}}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+
+
+            <hr>
+            <br><br>
+
+            <div class="bolder">TOTAL FOR FOREX CODES</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="aligncenter">CODE</th>
+                        <th class="aligncenter">TOTAL</th>
+                        
+                    </tr>
+                </thead>
+
+                {% for transfers in queryset_total_forex_code %}
+                <tbody>
+                    <tr>
+                        <td class="aligncenter">{{transfers.code}}</td>
+                        <td class="aligncenter">D{{transfers.total}}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
 
 
             {% else %}
