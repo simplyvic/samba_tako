@@ -149,13 +149,16 @@
                 </tbody>
                 {% endfor %}
             </table>
+            <div class="total">
+                <span class="highlight bolder">TOTAL FOREX :D{{total_transfer_type}}</span>
+            </div>
 
 
 
             <hr>
             <br><br>
 
-            <div class="bolder">TOTAL FOR LOCAL CODES</div>
+            <div class="bolder">TOTAL FOR ALL BRANCHES (LOCAL TRANFERS)</div>
             <table class="table">
                 <thead>
                     <tr>
@@ -174,12 +177,15 @@
                 </tbody>
                 {% endfor %}
             </table>
+<!--             <div class="total">
+                <span class="highlight bolder">CODES TOTAL LOCAL :D{{queryset_total_local_code}}</span>
+            </div> -->
 
 
             <hr>
             <br><br>
 
-            <div class="bolder">TOTAL FOR FOREX CODES</div>
+            <div class="bolder">TOTAL FOR BRANCHES (FOREX)</div>
             <table class="table">
                 <thead>
                     <tr>
@@ -198,6 +204,9 @@
                 </tbody>
                 {% endfor %}
             </table>
+<!--             <div class="total">
+                <span class="highlight bolder">CODES TOTAL FOREX :D{{queryset_total_forex_code.total}}</span>
+            </div> -->
 
 
             {% else %}

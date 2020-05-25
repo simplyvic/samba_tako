@@ -206,10 +206,15 @@ def listtransfersall(request):
     title = 'ALL TRANSFERS'
     form = TransferAllSearchForm(request.POST or None)
     # total = Transfer.objects.aggregate(Sum("amount_sent"))
-    amount_local = Transfer.objects.values_list('amount_sent', flat=True)
-    amount_forex = Transfer.objects.values_list('amount_sent', flat=True).exclude(transfer_type='Local Transfer')
+    amount_local = Transfer.objects.filter(transfer_type='Local Transfer').values_list('amount_sent', flat=True)
     total_local = sum(amount_local)
+    
+    amount_forex = Transfer.objects.exclude(transfer_type='Local Transfer').values_list('amount_sent', flat=True)
     total_forex = sum(amount_forex)
+
+    all_transfers = Transfer.objects.values_list('amount_sent', flat=True)
+    total_all_transfers = sum(all_transfers)
+
 
     queryset = Transfer.objects.all()
     queryset_local = Transfer.objects.filter(transfer_type='Local Transfer')
@@ -230,6 +235,8 @@ def listtransfersall(request):
                                                 ).annotate(total=Sum('amount_sent')
                                                 # ).annotate(total_forex=Sum('amount_sent')
                                                 )
+    amount_total_transfer_type = queryset_total_transfer_type.values_list('amount_sent', flat=True)
+    total_transfer_type = amount_total_transfer_type
 
     queryset_total_local_code = Transfer.objects.values('code'
                                                 ).order_by('code'
@@ -258,18 +265,20 @@ def listtransfersall(request):
     "title": title,
     # "queryset": queryset,
     "queryset_local": queryset_local,
-    "queryset_forex": queryset_forex,
-
     "total_local": total_local,
+    
+    "queryset_forex": queryset_forex,
     "total_forex": total_forex,
 
-
     "queryset_total_transfer_type": queryset_total_transfer_type,
+    "total_transfer_type": total_all_transfers,
+    
     "queryset_total_local_code": queryset_total_local_code,
+    # "total_local_code": total_local_code,
+
     "queryset_total_forex_code": queryset_total_forex_code,
-    # "queryset_total_local_or_forex": queryset_total_local_or_forex,
-    # "total_local": total_transfers,
-    # "total_local": total_transfers,
+    # "total_forex_code": total_forex_code,
+
     "form": form,
     # "total": total_local,
     "total": total_forex,

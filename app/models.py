@@ -39,6 +39,7 @@ class Transfer(models.Model):
 		('TransFast', 'TransFast'),
 		('Small World', 'Small World'),
 	)
+	total = models.IntegerField(blank=True, null=True)
 	transfer_type = models.CharField(max_length=50, default='', blank=True, null=True, choices=transfer_type_choice)
 
 	time_sent = models.DateTimeField(auto_now_add=True, auto_now=False)
