@@ -336,3 +336,14 @@ tbody tr:nth-child(even){
 	font-weight: bolder;
 	font-size: 18px;
 }
+
+/*
+#div_id_sender_name, #div_id_sender_id_number,
+{
+
+	display: inline;
+	float: left;
+	margin: 5px;
+	width: 150px;
+}
+*/

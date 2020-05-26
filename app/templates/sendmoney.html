@@ -15,7 +15,7 @@
                 <div class="title bolder">{{title}}</div><br><br>
                 
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <form method="post" action="">
                             {% csrf_token %} 
                             {{form|crispy}}
@@ -24,7 +24,7 @@
                         </form>
                     </div><!--/col-sm-3-->
 
-                    <div class="col-sm-9 aligncenter">
+                    <div class="col-sm-8 aligncenter">
                         <img style="width: 100%" src="/static/img/moneytransfer1.png">
                     </div><!--/col-sm-3-->
                 </div><!--/row-->

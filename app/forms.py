@@ -5,11 +5,27 @@ Required = "This field is required"
 
 ########## SEND
 class SendForm(forms.ModelForm):
+	transfer_type_choice = (
+		('Local Transfer', 'Local Transfer'),
+		('US Transfer', 'Us Transfer'),
+		# ('Money Gram', 'Money Gram'),
+		# ('TransFast', 'TransFast'),
+		# ('Small World', 'Small World'),
+	)
+	transfer_type = forms.ChoiceField(choices = transfer_type_choice, required=False)
+
 	class Meta:
 		model = Transfer
-		fields = ['code', 'sender_name', 'sender_id_number', 'sender_address', 
+		fields = ['code', 'transfer_type', 'sender_name', 'sender_id_number', 'sender_address', 
 				'sender_phone_number', 'amount_sent', 'recipient_name', 
 				'recipient_id_number', 'recipient_address', 'recipient_phone_number']
+
+
+	def clean_transfer_type(self):
+		transfer_type = self.cleaned_data.get('transfer_type')
+		if transfer_type == '':
+			raise forms.ValidationError(Required)
+		return transfer_type
 
 	def clean_code(self):
 		code = self.cleaned_data.get('code')
@@ -85,10 +101,24 @@ class SendForm(forms.ModelForm):
 
 
 class SendForexForm(forms.ModelForm):
+	transfer_type_choice = (
+		('RIA', 'RIA'),
+		('Money Gram', 'Money Gram'),
+		('TransFast', 'TransFast'),
+		('Small World', 'Small World'),
+	)
+	transfer_type = forms.ChoiceField(choices = transfer_type_choice, required=False)
+
 	class Meta:
 		model = Transfer
 		fields = ['code', 'transfer_type','amount_sent', 'recipient_name', 
 				'recipient_id_number', 'recipient_address', 'recipient_phone_number']
+
+	def clean_transfer_type(self):
+		transfer_type = self.cleaned_data.get('transfer_type')
+		if transfer_type == None:
+			raise forms.ValidationError(Required)
+		return transfer_type
 
 	def clean_code(self):
 		code = self.cleaned_data.get('code')
