@@ -102,6 +102,7 @@ class SendForm(forms.ModelForm):
 
 class SendForexForm(forms.ModelForm):
 	transfer_type_choice = (
+		('Western Union', 'Western Union'),
 		('RIA', 'RIA'),
 		('Money Gram', 'Money Gram'),
 		('TransFast', 'TransFast'),
