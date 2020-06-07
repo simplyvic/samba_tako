@@ -16,8 +16,8 @@ class SendForm(forms.ModelForm):
 
 	class Meta:
 		model = Transfer
-		fields = ['code', 'transfer_type', 'sender_name', 'sender_id_number', 'sender_address', 
-				'sender_phone_number', 'amount_sent', 'recipient_name', 
+		fields = ['sending_branch', 'receiving_branch', 'transfer_type', 'sender_name', 'sender_id_number', 'sender_address', 
+				'sender_phone_number', 'amount_sent', 'charges', 'recipient_name', 
 				'recipient_id_number', 'recipient_address', 'recipient_phone_number']
 
 
@@ -28,10 +28,10 @@ class SendForm(forms.ModelForm):
 		return transfer_type
 
 	def clean_code(self):
-		code = self.cleaned_data.get('code')
-		if code == '':
+		sending_branch = self.cleaned_data.get('sending_branch')
+		if sending_branch == '':
 			raise forms.ValidationError(Required)
-		return code
+		return sending_branch
 
 	def clean_sender_name(self):
 		sender_name = self.cleaned_data.get('sender_name')
@@ -62,6 +62,12 @@ class SendForm(forms.ModelForm):
 		if amount_sent == None:
 			raise forms.ValidationError(Required)
 		return amount_sent
+
+	def clean_charges(self):
+		charges = self.cleaned_data.get('charges')
+		if charges == None:
+			raise forms.ValidationError(Required)
+		return charges
 
 	# def clean_rate(self):
 	# 	rate = self.cleaned_data.get('rate')
@@ -112,7 +118,7 @@ class SendForexForm(forms.ModelForm):
 
 	class Meta:
 		model = Transfer
-		fields = ['code', 'transfer_type','amount_sent', 'recipient_name', 
+		fields = ['sending_branch', 'transfer_type','amount_sent', 'recipient_name', 
 				'recipient_id_number', 'recipient_address', 'recipient_phone_number']
 
 	def clean_transfer_type(self):
@@ -122,10 +128,10 @@ class SendForexForm(forms.ModelForm):
 		return transfer_type
 
 	def clean_code(self):
-		code = self.cleaned_data.get('code')
-		if code == '':
+		sending_branch = self.cleaned_data.get('sending_branch')
+		if sending_branch == '':
 			raise forms.ValidationError(Required)
-		return code
+		return sending_branch
 
 	def clean_amount_sent(self):
 		amount_sent = self.cleaned_data.get('amount_sent')
@@ -162,6 +168,12 @@ class TransferSearchForm(forms.Form): # Customized Form to be to be used to save
 	transfer_code = forms.CharField(required=False)
 	transfer_type = forms.CharField(required=False)
 	recipient_name = forms.CharField(required=False)
+
+	def clean_transfer_code(self):
+		transfer_code = self.cleaned_data.get('transfer_code')
+		if len(transfer_code) != 4:
+			raise forms.ValidationError('Please type the correct code')
+		return transfer_code
 	# recipient_id_number = forms.CharField(required=False)
 	# sender_name = forms.CharField(required=False)
 	# # sender_id_number = forms.CharField(required=False)
@@ -180,6 +192,12 @@ class TransferSearchForm(forms.Form): # Customized Form to be to be used to save
 # 	class Meta:
 # 		model = Transfer
 # 		fields = ['transfer_code', 'recipient_name', 'recipient_id_number']
+
+class TransferSearchAdminForm(forms.Form): # Customized Form to be to be used to save items in the database
+	transfer_code = forms.CharField(required=False)
+	transfer_type = forms.CharField(required=False)
+	recipient_name = forms.CharField(required=False)
+
 
 class TransferAllSearchForm(forms.Form): # Customized Form to be to be used to save items in the database
 	transfer_code = forms.CharField(required=False)
@@ -228,7 +246,9 @@ class AllTransferSearchForm(forms.Form): # Customized Form to be to be used to s
 # 		model = Transfer
 # 		fields = ['transfer_code', 'recipient_id_number', 'recipient_name', 'sender_name']
 
-
+# ['sending_branch', 'transfer_type', 'sender_name', 'sender_id_number', 'sender_address', 
+# 				'sender_phone_number', 'amount_sent', 'charges', 'recipient_name', 
+# 				'recipient_id_number', 'recipient_address', 'recipient_phone_number']
 
 
 ########## RECEIVER

@@ -12,23 +12,17 @@
             <!-- Main jumbotron for a primary marketing message or call to action -->
             <div class="jumbotron">
             {% if request.user.is_authenticated %}
-                <div class="title">{{title}}</div>
                 
                 <div class="row">
-                    <div class="col-sm-3">
-                        <form method="post" action="">
-                            {% csrf_token %} 
-                            {{form|crispy}}
-                            <input type="submit" class="btn btn-danger" value="Save">
-                            <a href="/moneytransfer/transferdashboard"><botton class='btn btn-primary'>Cancel</botton></a>
-                        </form>
-                    </div><!--/col-sm-3-->
+                    
 
-                    <div class="col-sm-9">
+                    <div class="col-sm-12">
+                        <div class="bolder highlight aligncenter">{{title}}</div><br>
                         <div class="money_details aligncenter">
                             Sender: {{instance.sender_name}}<br>
                             Date Sent: {{instance.time_sent}}<br>
                             Amount: <span class="highlight bolder">D{{instance.amount_sent}}</span><br>
+                            Charges: <span class="">{{instance.charges}}</span><br>
                             Sending Teller: <span class="">{{instance.tellerone}}</span><br>
                             Sending Branch: <span class="">{{instance.sending_branch}}</span><br>
                             <hr>

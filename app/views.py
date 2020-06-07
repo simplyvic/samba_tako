@@ -23,12 +23,13 @@ import csv
 
 # Create your views here.
 
-def id_generator(size=12, chars=string.ascii_uppercase + string.digits):
+def id_generator(size=4, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
         
 code = id_generator()
 t = iter(code)
-transfer_code = '-'.join(code[i:i+3] for i in range(0, len(code), 3))
+# transfer_code = '-'.join(code[i:i+3] for i in range(0, len(code), 3))
+transfer_code = code
 
 def home(request):
     title = 'Welcome to Samba tako forex bureau'
@@ -69,7 +70,7 @@ def sendmoney_local(request):
         "title": title,
         }
         messages.success(request, 'Successfully Sent')
-        return redirect('/moneytransfer/pendingmoney')
+        return redirect('/moneytransfer/confirmation/' + str(instance.id))
     return render(request, "sendmoney.html",context)
 
 
@@ -141,7 +142,7 @@ def transferdashboard(request):
     "title": title,
     "queryset": queryset,
     "form": form,
-    "message": message,
+    # "message": message,
     }
     if request.method == 'POST':
         queryset = Transfer.objects.all().filter(   Q(
@@ -162,10 +163,655 @@ def transferdashboard(request):
     return render(request, "transferdashboard.html",context)
 
 
-def pendingmoney(request):
+def pendingmoney_local(request):
     title = 'PENDING TRANSFERS'
+    if request.user.is_staff:
+        form = TransferSearchAdminForm(request.POST or None)
+    else:
+        form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer')
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+            										transfer_type__icontains=form['transfer_type'].value(),
+            										recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+
+
+def pendingmoney_local_001bakau(request):
+    title = '001 BAKAU TRANSFERS'
     form = TransferSearchForm(request.POST or None)
-    queryset = Transfer.objects.all().filter(Q(received=False))
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='001 BAKAU'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+
+
+
+def pendingmoney_local_002brusubi(request):
+    title = '002 BRUSUBI TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='002 BRUSUBI'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+def pendingmoney_local_003brufut(request):
+    title = '003 BRUFUT TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='003 BRUFUT'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+def pendingmoney_local_004tallinding(request):
+    title = '004 TALLINDING TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='004 TALLINDING'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+def pendingmoney_local_005tippergarrage(request):
+    title = '005 TIPPER GARRAGE TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='005 TIPPER GARRAGE'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+def pendingmoney_local_006bansang1(request):
+    title = '006 BANSANGE 1 TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='006 BANSANG 1'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+
+def pendingmoney_local_007jangjangbureh(request):
+    title = '007 JANGJANGBUREH TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='007 JANGJANGBUREH'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+
+def pendingmoney_local_008brikamaba(request):
+    title = '008 BRIKAMA BA TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='008 BRIKAMA BA'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+def pendingmoney_local_009bansang2(request):
+    title = '009 BANSANG 2 TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='009 BANSANG 2'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+
+def pendingmoney_local_010soma(request):
+    title = '010 SOMA TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='010 SOMA'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+
+def pendingmoney_local_011basse(request):
+    title = '011 BASSE TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='011 BASSE'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+def pendingmoney_local_012sinchu(request):
+    title = '012 SINCHU TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False),
+                                        Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'),
+                                        Q(receiving_branch='012 SINCHU'),
+                                        )
+    # total = Transfer.objects.aggregate(Sum("amount_sent"))
+    if len(queryset) == 1:
+            message = '1 Transfer pending'
+    else:
+        message = str(len(queryset)) + ' Transfers pending'
+    context = {
+    "title": title,
+    # "queryset": queryset,
+    "form": form,
+    "message": message,
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+
+            # queryset = Transfer.objects.all().filter(   Q(
+            #                                                 Q(transfer_code__icontains=form['transfer_code'].value()) |
+            #                                                 Q(recipient_name__icontains=form['recipient_name'].value()) |
+            #                                                 Q(recipient_id_number__icontains=form['recipient_id_number'].value())
+            #                                             ) &
+            #                                             Q(received=False)
+                    #                                         )
+            queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                    transfer_type__icontains=form['transfer_type'].value(),
+                                                    recipient_name__icontains=form['recipient_name'].value(),
+                                                    received=False)
+            if len(queryset) == 1:
+                message = '1 Match found'
+            else:
+                message = str(len(queryset)) + ' Matches found'
+
+            context = {
+            "title": title,
+            "queryset": queryset,
+            "form": form,
+            "message": message,
+            "url": '/local',
+            }
+    
+    return render(request, "pendingmoney.html",context)
+    
+
+
+
+
+
+def pendingmoney_forex(request):
+    title = 'FOREX TRANSFERS'
+    form = TransferSearchForm(request.POST or None)
+    queryset = Transfer.objects.filter(Q(received=False)).exclude(Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'))
     # total = Transfer.objects.aggregate(Sum("amount_sent"))
     if len(queryset) == 1:
             message = '1 Transfer pending'
@@ -185,9 +831,9 @@ def pendingmoney(request):
         #                                             ) &
         #                                             Q(received=False)
                 #                                         )
-        queryset = Transfer.objects.all().filter(transfer_code__icontains=form['transfer_code'].value(),
-        										transfer_type__icontains=form['transfer_type'].value(),
-        										recipient_name__icontains=form['recipient_name'].value(),
+        queryset = queryset.filter(transfer_code__icontains=form['transfer_code'].value(),
+                                                transfer_type__icontains=form['transfer_type'].value(),
+                                                recipient_name__icontains=form['recipient_name'].value(),
                                                 received=False)
 
         context = {
@@ -195,10 +841,10 @@ def pendingmoney(request):
         "queryset": queryset,
         "form": form,
         "message": message,
+        "url": '/forex',
         }
     
     return render(request, "pendingmoney.html",context)
-
 
 
 
@@ -238,15 +884,15 @@ def listtransfersall(request):
     amount_total_transfer_type = queryset_total_transfer_type.values_list('amount_sent', flat=True)
     total_transfer_type = amount_total_transfer_type
 
-    queryset_total_local_code = Transfer.objects.values('code'
-                                                ).order_by('code'
+    queryset_total_local_code = Transfer.objects.values('sending_branch'
+                                                ).order_by('sending_branch'
                                                 ).annotate(total=Sum('amount_sent')
                                                 # ).annotate(total_forex=Sum('amount_sent')
                                                 ).filter(Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'))
 
 
-    queryset_total_forex_code = Transfer.objects.values('code'
-                                                ).order_by('code'
+    queryset_total_forex_code = Transfer.objects.values('sending_branch'
+                                                ).order_by('sending_branch'
                                                 ).annotate(total=Sum('amount_sent')
                                                 # ).annotate(total_forex=Sum('amount_sent')
                                                 ).exclude(Q(transfer_type='Local Transfer') | Q(transfer_type='US Transfer'))
@@ -380,6 +1026,33 @@ def receivemoney(request, id=None):
             "form": form,
         }
     return render(request, "receivemoney.html", context)
+
+
+############ CONFIRMATION
+
+def confirmation(request, id=None):    
+    instance = get_object_or_404(Transfer, id=id)
+    # form = ReceiveForm(request.POST or None, instance=instance)
+    # if form.is_valid():
+    #     instance = form.save(commit=False)
+    #     instance.tellertwo = str(request.user)
+    #     instance.time_received = datetime.datetime.now()
+    #     if instance.receive_by == '':
+    #         instance.received_by = instance.recipient_name 
+    #     instance.save()
+    #     # client = TwilioRestClient(account_sid, auth_token)
+    #     # my_msg = str(instance.received_by) + ' received ' + str(instance.amount_sent) + ' sent by: ' + str(instance.sender_name) + '. TELLER: ' + str(request.user)
+    #     # message = client.messages.create(to=my_cell, from_=my_twilio,
+    #             # body=my_msg)
+    #     messages.success(request, 'Successfully Received by ' + instance.receive_by)
+    #     return redirect('/moneytransfer/pendingmoney')
+    context = {
+            "title": 'TRANSFER DETAILS',
+            "instance": instance,
+            # "form": form,
+        }
+    return render(request, "confirmation.html", context)
+
 
 
 

@@ -34,30 +34,7 @@
                     <h2 class="custom-title">OTHER SETTINGS</h2>
                         <div class="admin">
                             {% if perms.items.add_agdmainstore %}
-                          <div class="tabs"><!-- First TAB ROW class -->
-                              <ul>
-                                <li><a href="#dollarrate">USD Rate</a></li>
-                                <li><a href="#charges">Charges Per Transaction</a></li>
-                              </ul>
-                              
-                              <div id="dollarrate">
-                              <p>
-                                <form method='POST' action=''>{% csrf_token %}
-                                <div class="col-sm-4">{{rateForm|crispy}}</div><br>
-                                <input type='submit' class='btn btn-primary' value="Save" />
-                                </form>
-                              </p>
-                              </div>
-
-                              <div id="charges">
-                              <p>
-                                <form method='POST' action=''>{% csrf_token %}
-                                <div class="col-sm-4">{{chargesForm|crispy}}</div><br>
-                                <input type='submit' class='btn btn-primary' value="Save" />
-                                </form>
-                              </p>
-                              </div>
-                        </div><!--end DIV under first h2 tag-->
+                          Click account settings for user access rights.
                         {% else %}<div class="red aligncenter">You do not have permissions to access settings</div>
                         {% endif %}
                         </div>

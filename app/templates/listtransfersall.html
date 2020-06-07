@@ -156,7 +156,7 @@
 
 
 
-            <hr>
+            <!-- <hr>
             <br><br>
 
             <div class="bolder">TOTAL FOR ALL BRANCHES (LOCAL TRANFERS)</div>
@@ -172,18 +172,18 @@
                 {% for transfers in queryset_total_local_code %}
                 <tbody>
                     <tr>
-                        <td class="aligncenter">{{transfers.code}}</td>
+                        <td class="aligncenter">{{transfers.sending_branch}}</td>
                         <td class="aligncenter">D{{transfers.total}}</td>
                     </tr>
                 </tbody>
                 {% endfor %}
-            </table>
+            </table> -->
 <!--             <div class="total">
                 <span class="highlight bolder">CODES TOTAL LOCAL :D{{queryset_total_local_code}}</span>
             </div> -->
 
 
-            <hr>
+            <!-- <hr>
             <br><br>
 
             <div class="bolder">TOTAL FOR BRANCHES (FOREX)</div>
@@ -194,17 +194,17 @@
                         <th class="aligncenter">TOTAL</th>
                         
                     </tr>
-                </thead>
+                </thead> -->
 
                 {% for transfers in queryset_total_forex_code %}
-                <tbody>
+                <!-- <tbody>
                     <tr>
-                        <td class="aligncenter">{{transfers.code}}</td>
+                        <td class="aligncenter">{{transfers.sending_branch}}</td>
                         <td class="aligncenter">D{{transfers.total}}</td>
                     </tr>
-                </tbody>
+                </tbody> -->
                 {% endfor %}
-            </table>
+            <!-- </table> -->
 <!--             <div class="total">
                 <span class="highlight bolder">CODES TOTAL FOREX :D{{queryset_total_forex_code.total}}</span>
             </div> -->
